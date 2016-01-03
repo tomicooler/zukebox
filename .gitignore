@@ -2,3 +2,6 @@
 /develop-eggs/
 /parts/
 /.installed.cfg
+/eggs/*
+/.cache/*
+/.idea/*
