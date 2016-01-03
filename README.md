@@ -1,124 +1,59 @@
-zukebox
-==========================
+==================================================================
+zukebox: Juke Box
+==================================================================
 
-This is boilerplate code for your project, generated using the `python_boilerplate` paster template. It provides simple starting points for using some of the popular best-practices:
+ZukeBox is a very simple "Juke Box" application for playing music from Youtube.
 
-  * Proper [setuptools](https://pypi.python.org/pypi/setuptools)-compatible package layout.
-  * [py.test](http://pytest.org/)-based tests.
-  * [buildout](http://www.buildout.org/) for managing development tools or developing multiple-package projects
-  * Usage of the [Travis-CI](https://travis-ci.org/) continuous integration service.
+Project goals:
+ - RESTful API for adding tracks, controlling the playback
+ - The tracks are downloaded with youtube-dl and cached on disk
+ - The playback is done with python-vlc
+ - Browser extensions
 
-Preparation
------------
+It is in POC phase, use it own your own risk.
+Currently no automated tests, many things are not configurable yet, the project is in early stage.
 
-The next thing to do after having created the project layout is to add the code to a version control repository. There are two common options for you to choose from:
+Developing
+----------
 
-  1. For smaller single-package projects you might want to keep only the Python's package code (i.e. `src/zukebox`) under version control, and consider the rest (the `buildout.cfg` and all that comes with it) to be your local development environment.
-  2. For larger projects you should consider keeping the whole development environment (including `buildout.cfg`, perhaps several eggs under `src`, docs in `doc`, etc) under version control.
+    $ python bootstrap.py
+    $ export PATH=$PWD/bin:$PATH
+    $ buildout
+    $ zukebox
 
-**If you decided in favor of Option 1**:
+Installation
+------------
 
-  - Create a version control repository under `src/zukebox`. Here is an example with Git:
+The easiest way to install most Python packages is via ``easy_install`` or ``pip``::
 
-        > cd src/zukebox
-        > git init
-        > git add .
-        > git commit -m "Initial package structure"
-    
-    If you are using Github, proceed by creating a `<your-project>` repository on the Github website, and then doing:
+    $ easy_install zukebox
 
-        > git remote add origin https://github.com/<username>/<your-project>.git
-        > git push origin master
+Usage
+-----
 
-  - You can safely delete the `.travis.yml` file in the root of the project (but leave the one within the `src/zukebox` directory).
+Start ``zukebox`` application and use the REST api.
 
-**If you decided in favor of Option 2**:
+Adding a track::
 
-  - Create a version control repository under the project root (i.e. in this directory). The Git/Github example above applies, except for the first `cd` line.
-  - Drop `.travis.yml` from the `src/zukebox` directory (leave the one in the project root).
+    $ http POST 0.0.0.0:5000/player/tracks url="https://www.youtube.com/watch?v=lWqeHVOQa58" user="Tomi"
 
-Before you begin developing your code, you may wish to tune the `src/zukebox/README.rst` file. This file should contain a detailed description of what your package is supposed to do. In particular, when you submit your package to PyPI, the contents of this file will be shown on the package index page. 
+Getting the tracks::
 
-In addition, the `LICENSE.txt` included with the boilerplate code is a copy of the `MIT` license. If you project uses a different license, replace this file to match.
+    $ http GET 0.0.0.0:5000/player/tracks
 
-Eventually, you will also want to edit this `README.md` to reflect the actual development instructions that apply to your project. Note that if you decided to keep the whole project layout in Github, this `README.md` will be shown as the index page of your project on Github.
+Remove a track::
 
-Finally, review the settings in `src/zukebox/setup.py` (e.g., the `classifiers` parameter might require tuning).
+    $ http DELETE 0.0.0.0:5000/player/tracks/0
 
-Once you are done with the preparation, you can start developing by running `python bootstrap.py` and `buildout`. See next section.
+Getting the recent tracks::
 
-Common development tasks
-------------------------
+    $ http GET 0.0.0.0:5000/player/recent-tracks
 
-  * **Setting up the development environment before first use**
-  
-        > python bootstrap.py
-        > export PATH=$PWD/bin:$PATH  
-            (in Windows: set PATH=%CD%\bin;%PATH%)
-        > buildout
-       
-  * **Running tests**  
-    Tests are kept in the `tests` directory and are run using
+Control the player::
 
-        > py.test
-    
-  * **Creating Sphinx documentation**
-  
-        sphinx-quickstart
-        (Fill in the values, edit documentation, add it to version control)
-        (Generate documentation by something like "cd docs; make html")
-        
-    (See [this guide](http://sphinx-doc.org/tutorial.html) for more details)
-    
-  * **Specifying dependencies for your package**  
-    Edit the `install_requires` line in `src/zukebox/setup.py` by listing all the dependent packages.
-
-  * **Producing executable scripts**  
-    Edit the `console_scripts` section of `entry_points` in `src/zukebox/setup.py`. Then run `buildout`. The corresponding scripts will be created in the `bin/` subdirectory. Note that the boilerplate project already contains one dummy script as an example.
-
-  * **Debugging the code manually**      
-    Simply run `bin/python`. This generated interpreter script has the project package included in the path.
-    
-  * **Publishing the package on Pypi**
-  
-         > cd src/zukebox
-         > python setup.py register sdist upload
-       
-  * **Creating an egg or a windows installer for the package**
-  
-         > cd src/zukebox
-         > python setup.py bdist_egg
-          or
-         > python setup.py bdist_wininst
-       
-  * **Travis-CI integration**  
-    To use the [Travis-CI](https://travis-ci.org/) continuous integration service, follow the instructions at the [Travis-CI website](https://travis-ci.org/) to register an account and connect your Github repository to Travis. The boilerplate code contains a minimal `.travis.yml` configuration file that might help you get started.
-
-  * **Other tools**  
-    The initial `buildout.cfg` includes several useful code-checking tools under the `[tools]` section. Adapt this list to your needs (remember to run `buildout` each time you change `buildout.cfg`).
-
-  * **Working with setup.py**  
-    If you are working on a small project you might prefer to drop the whole `buildout` business completely and only work from within the package directory (i.e. make `src\zukebox` your project root). In this case you should know that you can use
-    
-         > python setup.py develop
-         
-    to include the package into the system-wide Python path. Once this is done, you can run tests via
-    
-         > python setup.py test
-         
-    Finally, to remove the package from the system-wide Python path, run:
-    
-         > python setup.py develop -u
-
-  * **Developing multi-package projects**  
-    Sometimes you might need to split your project into several packages, or use a customized version of some package in your project. In this case, put additional packages as subdirectories of `src/` alongside the original `src/zukebox`, and register them in `buildout.cfg`. For example, if you want to add a new package to your project, do:
-    
-         > cd src/
-         > cookiecutter https://github.com/audreyr/cookiecutter-pypackage.git
-           or
-         > paster create <new_package_name>
-         
-    Then add `src/<new_package_name>` to version control and add the directory `src/<new_package_name>` to the `develop` list in `buildout.cfg`. Also, if necessary, add `<new_package_name>` to the `[main]` part of `buildout.cfg` and mention it in the `[pytest]` configuration section of `setup.cfg`.
+    $ http PATCH 0.0.0.0:5000/player/control time=240 # seek
+    $ http PATCH 0.0.0.0:5000/player/control playing=false # play/pause
+    $ http PATCH 0.0.0.0:5000/player/control volume=50 # change volume
 
 Copyright & License
 -------------------
