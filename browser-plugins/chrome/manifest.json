@@ -7,16 +7,12 @@
 
   "permissions": [ "declarativeContent", "tabs", "storage", "http://*/" ],
 
-  "background": {
-    "scripts": ["background.js"],
-    "persistent": false
-  },
-
   "icons": {"128": "music.png" },
 
-  "page_action": {
+  "browser_action": {
     "default_icon": "music.png",
-    "default_title": "Send the link to ZukeBox"
+    "default_title": "ZukeBox",
+    "default_popup": "popup.html"
   },
 
   "options_ui": {
