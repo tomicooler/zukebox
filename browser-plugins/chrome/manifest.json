@@ -1,24 +1,26 @@
 {
   "manifest_version": 2,
-
   "name": "ZukeBox",
   "description": "This extension adds ZukeBox support for chromium web browser.",
   "version": "2.0",
-
-  "permissions": [ "declarativeContent", "tabs", "storage", "http://*/" ],
-
-  "icons": {"128": "music.png" },
-
+  "permissions": [
+    "declarativeContent",
+    "tabs",
+    "activeTab",
+    "storage",
+    "http://*/",
+    "https://*/"
+  ],
+  "icons": {
+    "128": "music.png"
+  },
   "browser_action": {
     "default_icon": "music.png",
     "default_title": "ZukeBox",
     "default_popup": "popup.html"
   },
-
   "options_ui": {
     "page": "options.html",
     "chrome_style": true
   }
 }
-
-

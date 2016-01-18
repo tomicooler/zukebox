@@ -1,61 +1,73 @@
 <!DOCTYPE html>
-<html lang="en" style="min-width:500px">
-<head>
-    <title>Bootstrap Example</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script src="date.js"></script>
-    <script src="jquery-1.12.0.min.js"></script>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="css/popup.css" rel="stylesheet" type="text/css"/>
+    <link href="css/icon.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 
-<div class="container-fluid" style="padding: 3px">
-    <div class="row">
-        <div class="col-xs-2">
-            <div class="img-thumbnail">
-                <img src="music.png" id="thumbnail" width="48" height="48"/>
+<div class="player">
+    <div class="cover">
+        <a href="https://www.youtube.com/" id="track-url" target="_blank">
+            <img id="track-thumbnail" src="img/cover1.jpg" width="100%" alt=""/>
+        </a>
+    </div>
+    <div class="controls">
+        <marquee class="title" id="track-title">Loading ...</marquee>
+        <div class="from" id="track-user">Loading ...</div>
+        <div class="progress-touch" id="track-progress">
+            <div class="progress-bar">
+                <div class="progress-line"></div>
             </div>
         </div>
-        <div class="col-xs-8">
-            <div id="current_track">title</div>
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width:0%" id="progress">
-                    <span id="progress-label"></span>
+
+        <div class="controls-columns">
+            <div>
+                <div>
+                    <div id="track-time">00:00:00 / 00:00:00</div>
                 </div>
             </div>
-        </div>
-        <div class="col-xs-1">
-            <span class="glyphicon glyphicon-play" aria-hidden="true" id="playing"></span>
-        </div>
-        <div class="col-xs-1">
-            <div class="row">
-                <div class="col-xs-1" id="volume">
-                    100
+            <div>
+                <div id="control-btn" class="icon-pause"></div>
+            </div>
+            <div>
+                <div id="volume-btn">
+                    <span id="volume-ico" class="icon-volume-mute2"></span>
                 </div>
-                <div class="col-xs-1">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                </div>
-                <div class="col-xs-1">
-                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                <div class="progress-touch" id="volume-progress">
+                    <div class="progress-bar">
+                        <div class="progress-line"></div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<table class="table table-hover">
-<tbody id="queue">
-</tbody>
-</table>
-<span id="queue-length" style="float: right; padding: 2px;" class="text-info"></span>
-<div id="send-div" style="padding: 2px;">
-    <input type="url" class="form-control" id="url" style="width: 40%">
-    <button type="button" class="btn btn-primary" style="float: left;" id="send">Append</button>
+<div id="queue">
+    Loading ...
+</div>
+<div id="queue-info">( 0 tracks in the queue. )</div>
+
+<div class="send">
+    <input id="send-message" type="text" placeholder="Your very funny message"/>
+    <input id="send-url" type="text" placeholder="YouTube video link"/>
+    <button id="send-btn"><span class="icon-music"></span> Send new Zuke!</button>
 </div>
 
+<div class="footer">
+    <div class="logo icon-zukebox"></div>
+</div>
+
+<script src="js/jquery/jquery-2.2.0.min.js"></script>
+<script src="js/zukebox/ZukeDom.js"></script>
+<script src="js/zukebox/ZukeApi.js"></script>
+<script src="js/zukebox/ZukeControl.js"></script>
+<script src="js/zukebox/ZukeProgress.js"></script>
+<script src="js/zukebox/ZukeTime.js"></script>
+<script src="js/zukebox/ZukeBox.js"></script>
 <script src="popup.js"></script>
 </body>
 </html>

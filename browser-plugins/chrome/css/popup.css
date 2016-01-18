@@ -1,0 +1,226 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 400px;
+}
+
+body {
+    font-family: sans-serif;
+    color: #34495e;
+}
+
+body a {
+    color: #34495e;
+}
+
+* {
+    box-sizing: border-box !important;
+}
+
+.player {
+    width: 100%;
+    color: #ecf0f1;
+    overflow: hidden;
+}
+
+.cover {
+    width: 100%;
+    line-height: 0;
+}
+
+.title {
+    width: 100%;
+    margin: 8px;
+    overflow: hidden;
+    font-size: 16px;
+    text-shadow: 1px 1px rgba(0, 0, 0, 0.2);
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.from {
+    text-align: center;
+    font-size: 9px;
+    text-transform: uppercase;
+}
+
+.controls {
+    position: relative;
+    background: rgba(56, 56, 56, 1);
+    background: linear-gradient(to bottom, rgba(56, 56, 56, 1) 0%, rgba(19, 19, 19, 1) 100%);
+}
+
+.controls-columns {
+    overflow: hidden;
+}
+
+.controls-columns > div {
+    float: left;
+    width: 33.3%;
+    height: 40px;
+    position: relative;
+}
+
+.progress-touch {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.progress-bar {
+    overflow: hidden;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.progress-line {
+    height: 5px;
+    width: 0;
+    background: #3498db;
+}
+
+#control-btn {
+    margin: 0 auto;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+#volume-progress {
+    position: absolute;
+    top: 4px;
+    right: 0;
+    width: 100px;
+}
+
+#volume-btn {
+    margin: 10px 0 0 20px;
+    font-size: 15px;
+}
+
+#track-time {
+    margin: 10px 0 0 10px;
+    font-size: 10px;
+}
+
+#queue {
+    padding: 5px;
+}
+
+.queue-item {
+    display: block;
+    border-bottom: 1px solid #ecf0f1;
+    position: relative;
+    padding: 2px 0;
+    font-size: 11px;
+    text-decoration: none;
+}
+
+.queue-item:hover {
+    background: #ecf0f1;
+}
+
+.queue-item > div {
+    height: 30px;
+    line-height: 30px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.queue-thumbnail {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    text-align: center;
+}
+
+.queue-thumbnail img {
+    position: relative;
+    max-width: 100%;
+    max-height: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.queue-title {
+    padding: 0 65px 0 50px;
+    font-weight: bold;
+}
+
+.queue-user {
+    text-transform: uppercase;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 65px;
+    padding-left: 5px;
+    border-left: 1px solid #ecf0f1;
+}
+
+#queue-info {
+    padding: 5px;
+    font-size: 9px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.send {
+    text-align: center;
+    padding: 10px 0;
+    line-height: 0;
+    font-size: 0;
+
+    background: rgba(56, 56, 56, 1);
+    background: linear-gradient(to bottom, rgba(56, 56, 56, 1) 0%, rgba(19, 19, 19, 1) 100%);
+}
+
+.send > input {
+    margin: 0;
+    line-height: 30px;
+    height: 30px;
+    padding: 0 10px;
+    border: none;
+    outline: none;
+}
+
+#send-message {
+    width: 380px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+#send-url {
+    width: 230px;
+    border-top: 1px solid #bdc3c7;
+    border-bottom-left-radius: 4px;
+    border-right: none;
+}
+
+#send-btn {
+    width: 150px;
+    margin: 0;
+    line-height: 30px;
+    height: 30px;
+    padding: 0 10px;
+    border: none;
+    border-bottom-right-radius: 4px;
+    background: #16a085;
+    color: #ECF0F1;
+    outline: none;
+    cursor: pointer;
+}
+
+#send-btn:hover {
+    background: #1abc9c;
+}
+
+/* Footer */
+.logo {
+    background: rgba(19, 19, 19, 1);
+    padding: 5px;
+    font-size: 16px;
+    color: #ecf0f1;
+}
