@@ -92,10 +92,10 @@ def patch_control():
         abort(400, {'error': 'Not a json'})
 
     if 'playing' in request.json:
-        if request.json['playing'] not in ('true', 'false'):
+        if request.json['playing'] not in (True, False):
             abort(422, {'error': "Invalid parameter value for 'playing', must be true or false"})
 
-        playing = request.json['playing'] == 'true'
+        playing = request.json['playing'] == True
         zb.player.playing = playing
 
     if 'volume' in request.json:

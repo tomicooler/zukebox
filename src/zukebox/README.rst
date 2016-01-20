@@ -51,6 +51,6 @@ Getting the recent tracks::
 
 Control the player::
 
-    $ http PATCH 0.0.0.0:5000/player/control time=240 # seek
-    $ http PATCH 0.0.0.0:5000/player/control playing=false # play/pause
-    $ http PATCH 0.0.0.0:5000/player/control volume=50 # change volume
+    $ http PATCH 0.0.0.0:5000/player/control time:=240 # seek
+    $ http PATCH 0.0.0.0:5000/player/control playing:=false # play/pause
+    $ http PATCH 0.0.0.0:5000/player/control volume:=50 # change volume
