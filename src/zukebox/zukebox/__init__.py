@@ -61,7 +61,12 @@ def create_track():
     _ensure_json_contains_a_string_key_value_pair('url')
     _ensure_json_contains_a_string_key_value_pair('user')
 
-    track = zb.create_track(request.json['url'], request.json['user'])
+    message = request.json.get('message', '')
+    lang = request.json.get('lang', '')
+
+    track = zb.create_track(request.json['url'],
+                            request.json['user'],
+                            message, lang)
 
     return make_response(jsonify(track), 201)
 

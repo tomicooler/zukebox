@@ -9,6 +9,10 @@ from multiprocessing import Pool
 
 import json
 
+from gtts import gTTS
+from tempfile import NamedTemporaryFile
+import os
+
 from zukebox.player import Player
 from zukebox.trackcache import TrackCache
 from zukebox.youtube import Youtube, DownloadError
@@ -62,6 +66,19 @@ def play_next_track():
     current_track.update(track)
     del tracks[0]
 
+    if 'message' in track and 'lang' in track:
+        try:
+            tts = gTTS(text=track['message'], lang=track['lang'])
+            f = NamedTemporaryFile()
+            tts.write_to_fp(f)
+            f.file.flush()
+            # TODO: find a good python library for playing sounds, VLC is not good enough
+            os.system(' '.join(['playsound', '--volume', str(float(player.volume) / float(100.0)),
+                                f.name, '&>', '/dev/null']))
+            f.close()
+        except Exception as e:
+            print("Error: {}".format(e))
+
     player.open(cache.track_path(track_id))
     player.playing = True
 
@@ -88,7 +105,7 @@ def track_downloaded(track: dict):
     play_next_track()
 
 
-def create_track(youtube_url: str, user: str) -> dict:
+def create_track(youtube_url: str, user: str, message: str, lang: str) -> dict:
     youtube_id = youtube.get_id(youtube_url)
     track_id = 'YOUTUBE-{id}'.format(id=youtube_id)
 
@@ -97,6 +114,9 @@ def create_track(youtube_url: str, user: str) -> dict:
         with open(cache.info_path(track_id)) as track_info_file:
             track = json.load(track_info_file)
         track['user'] = user
+        if len(message) > 0 and len(lang) > 0:
+            track['message'] = message
+            track['lang'] = lang
         tracks.append(track)
         play_next_track()
     else:
@@ -110,6 +130,10 @@ def create_track(youtube_url: str, user: str) -> dict:
             pool().apply_async(async_download_track, args=[track], callback=track_downloaded)
 
         track['user'] = user
+        if len(message) > 0 and len(lang) > 0:
+            track['message'] = message
+            track['lang'] = lang
+
         tracks.append(track)
 
     return track
