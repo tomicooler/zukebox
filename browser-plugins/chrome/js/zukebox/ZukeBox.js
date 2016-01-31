@@ -3,6 +3,7 @@ function ZukeBox(options) {
     var that = this;
     var address = options.address || 'http://10.50.1.13:5000';
     var user = options.user || 'Stranger';
+    var lang = options.lang || 'hu';
     var dom = new ZukeDom();
     var api = new ZukeApi();
     var control = new ZukeControl(dom);
@@ -59,7 +60,8 @@ function ZukeBox(options) {
             api.post(address + '/player/tracks', {
                 url: url,
                 user: user,
-                message: message || ''
+                message: message || '',
+                lang: lang || ''
             });
         }
     };
