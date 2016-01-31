@@ -9,7 +9,8 @@ $(function () {
             checkFunctionParameter('getOptions', callback);
             chrome.storage.sync.get({
                 address: '',
-                user: ''
+                user: '',
+                lang: ''
             }, callback);
         };
 
