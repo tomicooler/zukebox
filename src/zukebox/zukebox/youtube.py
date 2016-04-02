@@ -29,10 +29,11 @@ class Youtube:
 
     options = {
         'format': 'bestaudio/best',
+        'audioformat': "mp3",
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',
             'preferredcodec': 'mp3',
-            'preferredquality': '192',
+            'preferredquality': '320',
         }],
         'logger': Logger(),
     }
@@ -63,7 +64,9 @@ class Youtube:
     def download_audio(self, youtube_url: str, output: str):
         with self.handle_errors():
             options = self.options.copy()
-            options['outtmpl'] = output
+            # We cant name the output file to mp3, because the YoutubeDL's
+            # post processor will create the mp3 file
+            options['outtmpl'] = output + 'c'
             with youtube_dl.YoutubeDL(options) as ydl:
                 ydl.download([youtube_url])
 
