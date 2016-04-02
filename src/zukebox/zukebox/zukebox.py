@@ -79,8 +79,16 @@ def play_next_track():
         except Exception as e:
             print("Error: {}".format(e))
 
-    player.open(cache.track_path(track_id))
+    path = cache.track_path(track_id)
+    player.open(path)
     player.playing = True
+
+    def touch(name, times=None):
+        with open(name, 'a'):
+            os.utime(name, times)
+
+    touch(path)
+    cache.clean_up()
 
 
 def async_download_track(track: dict):
