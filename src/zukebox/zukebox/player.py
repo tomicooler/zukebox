@@ -10,7 +10,7 @@ import vlc
 
 
 class Player:
-    def __init__(self, on_track_finished_callback):
+    def __init__(self, on_track_finished_callback=None):
         self.on_track_finished_callback = on_track_finished_callback
         self.instance = vlc.Instance()
         self.mediaplayer = self.instance.media_player_new()
@@ -58,4 +58,5 @@ class Player:
     @vlc.callbackmethod
     def track_finished(self, *args, **kwargs):
         self.is_playing = False
-        threading.Timer(1, self.on_track_finished_callback).start()
+        if self.on_track_finished_callback:
+            threading.Timer(1, self.on_track_finished_callback).start()

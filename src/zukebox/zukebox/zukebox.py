@@ -12,11 +12,12 @@ import json
 from gtts import gTTS
 from tempfile import NamedTemporaryFile
 import os
+import subprocess
+import time
 
 from zukebox.player import Player
 from zukebox.trackcache import TrackCache
 from zukebox.youtube import Youtube, DownloadError
-
 
 tracks = []
 recent_tracks = []
@@ -62,25 +63,44 @@ def play_next_track():
     if not cache.is_cached(track_id):
         return
 
-    current_track.clear()
-    current_track.update(track)
-    del tracks[0]
-
     if 'message' in track and 'lang' in track:
         try:
             tts = gTTS(text=track['message'], lang=track['lang'])
             f = NamedTemporaryFile()
             tts.write_to_fp(f)
             f.file.flush()
-            # TODO: find a good python library for playing sounds, VLC is not good enough
-            os.system(' '.join(['playsound', '--volume', str(float(player.volume) / float(100.0)),
-                                f.name, '&>', '/dev/null']))
+            mp3 = f.name + '.mp3'
+            FNULL = open(os.devnull, 'w')
+            ret = subprocess.call(['ffmpeg', '-i', f.name, '-codec:a', 'libmp3lame', '-qscale:a', '0', '-ac', '2',
+                                   '-af', 'volume=4.0', mp3], stdout=FNULL, stderr=subprocess.STDOUT)
             f.close()
+            if ret == 0:
+                pl = Player()
+                pl.open(mp3)
+                pl.volume = player.volume
+                pl.playing = True
+                while pl.playing:
+                    time.sleep(0.2)
+                time.sleep(1)
+
+            os.remove(mp3)
         except Exception as e:
             print("Error: {}".format(e))
 
-    player.open(cache.track_path(track_id))
+    path = cache.track_path(track_id)
+    player.open(path)
     player.playing = True
+
+    current_track.clear()
+    current_track.update(track)
+    del tracks[0]
+
+    def touch(name, times=None):
+        with open(name, 'a'):
+            os.utime(name, times)
+
+    touch(path)
+    cache.clean_up()
 
 
 def async_download_track(track: dict):
@@ -92,8 +112,12 @@ def async_download_track(track: dict):
 
     try:
         youtube.download_audio(url, track_path)
+        info = track.copy()
+        del info['message']
+        del info['lang']
+        del info['user']
         with open(info_path, 'w') as outfile:
-            json.dump(track, outfile)
+            json.dump(info, outfile)
     except DownloadError as e:
         print(str(e))
 
