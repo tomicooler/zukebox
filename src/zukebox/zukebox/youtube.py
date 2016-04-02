@@ -16,13 +16,13 @@ class DownloadError(Exception):
 
 class Logger(object):
     def debug(self, msg):
-        pass
+        print(msg)
 
     def warning(self, msg):
-        pass
+        print(msg)
 
     def error(self, msg):
-        pass
+        print(msg)
 
 
 class Youtube:
