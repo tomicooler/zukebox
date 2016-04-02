@@ -86,7 +86,8 @@ def get_control():
     return jsonify({
         'playing': zb.player.playing,
         'volume': zb.player.volume,
-        'time': int(zb.player.position * zb.current_track['duration']) if zb.player.playing else 0,
+        'time': int(zb.player.position * zb.current_track[
+            'duration']) if zb.player.playing and 'duration' in zb.current_track else 0,
         'track': zb.current_track,
     })
 
