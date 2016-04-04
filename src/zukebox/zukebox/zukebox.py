@@ -113,9 +113,12 @@ def async_download_track(track: dict):
     try:
         youtube.download_audio(url, track_path)
         info = track.copy()
-        del info['message']
-        del info['lang']
-        del info['user']
+        if 'message' in info:
+            del info['message']
+        if 'lang' in info:
+            del info['lang']
+        if 'user' in info:
+            del info['user']
         with open(info_path, 'w') as outfile:
             json.dump(info, outfile)
     except DownloadError as e:
