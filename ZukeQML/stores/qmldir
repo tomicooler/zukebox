@@ -1,0 +1,3 @@
+singleton PlayerStore 1.0 PlayerStore.qml
+singleton TrackStore 1.0 TrackStore.qml
+singleton RecentTrackStore 1.0 RecentTrackStore.qml

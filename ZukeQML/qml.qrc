@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>actions/ActionTypes.qml</file>
+        <file>actions/AppActions.qml</file>
+        <file>actions/qmldir</file>
+        <file>stores/PlayerStore.qml</file>
+        <file>stores/qmldir</file>
+        <file>views/Page1.qml</file>
+        <file>views/Page1Form.ui.qml</file>
+        <file>views/Track.qml</file>
+        <file>views/TrackForm.ui.qml</file>
+        <file>stores/TrackStore.qml</file>
+        <file>stores/controlservice.js</file>
+        <file>stores/TS.qml</file>
+        <file>stores/RecentTrackStore.qml</file>
+    </qresource>
+</RCC>

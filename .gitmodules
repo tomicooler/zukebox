@@ -1,0 +1,3 @@
+[submodule "ZukeQML/quickflux"]
+	path = ZukeQML/quickflux
+	url = https://github.com/benlau/quickflux.git
