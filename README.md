@@ -1,17 +1,13 @@
-==================================================================
 zukebox: Juke Box
-==================================================================
+=================
 
 ZukeBox is a very simple "Juke Box" application for playing music from Youtube.
 
-Project goals:
+What's this?
  - RESTful API for adding tracks, controlling the playback
  - The tracks are downloaded with youtube-dl and cached on disk
  - The playback is done with python-vlc
  - Browser extensions
-
-It is in POC phase, use it own your own risk.
-Currently no automated tests, many things are not configurable yet, the project is in early stage.
 
 Developing
 ----------
