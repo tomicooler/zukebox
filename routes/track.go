@@ -13,15 +13,15 @@ import (
 	"github.com/tomicooler/zukebox/zuke"
 )
 
-var ydl zuke.YoutubeDL
+var Ydl zuke.YoutubeDL
 var ticker *time.Ticker
 
 func init() {
-	ydl = zuke.NewYoutubeDl()
+	Ydl = zuke.NewYoutubeDl()
 	ticker = time.NewTicker(1 * time.Hour)
 	go func() {
 		for range ticker.C {
-			ydl.Update()
+			Ydl.Update()
 		}
 	}()
 }
@@ -62,40 +62,29 @@ func CreateTrack(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if cachedTrack, err := Cache.GetTrack(track.Url); err == nil {
-		cachedTrack.User = track.User
-		cachedTrack.Message = track.Message
-		cachedTrack.Lang = track.Lang
-		track = cachedTrack
-	} else {
-		info, err := ydl.GetTrackInfo(track.Url)
-		if err != nil {
-			render.Render(w, r, ErrInvalidRequest(err))
-			return
-		}
-
-		if info.IsLive {
-			render.Render(w, r, &ErrResponse{HTTPStatusCode: 403, StatusText: "Live track is not supported!"})
-			return
-		}
-
-		track.ID = info.ID
-		track.Title = info.Title
-		track.Thumbnail = info.Thumbnail
-		track.Duration = info.Duration
-
-		Cache.RemoveOldies()
-
-		if err := ydl.DownloadTrack(track.Url, Cache.CachePath); err != nil {
-			render.Render(w, r, &ErrResponse{HTTPStatusCode: 403, StatusText: "Could not download track!"})
-			return
-		}
-
-		if err := Cache.StoreTrack(track); err != nil {
-			render.Render(w, r, &ErrResponse{HTTPStatusCode: 403, StatusText: "Could not store track!"})
-			return
-		}
+	info, err := Ydl.GetTrackInfo(track.Url)
+	if err != nil {
+		render.Render(w, r, ErrInvalidRequest(err))
+		return
 	}
+
+	if info.PlayerResponse.VideoDetails.IsLive {
+		render.Render(w, r, &ErrResponse{HTTPStatusCode: 403, StatusText: "Live track is not supported!"})
+		return
+	}
+
+	track.ID = info.ID
+	track.Title = info.Title
+	if len(info.PlayerResponse.VideoDetails.Thumbnail.Thumbnails) > 0 {
+		track.Thumbnail = info.PlayerResponse.VideoDetails.Thumbnail.Thumbnails[0].Url
+	}
+	duration, err := strconv.ParseFloat(info.Duration, 64)
+	if err != nil {
+		render.Render(w, r, &ErrResponse{HTTPStatusCode: 403, StatusText: "Could not parse duration!"})
+		return
+	}
+
+	track.Duration = duration
 
 	if err := Tracks.AddTrack(track); err != nil {
 		render.Render(w, r, &ErrResponse{HTTPStatusCode: 403, StatusText: err.Error()})

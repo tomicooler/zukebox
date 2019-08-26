@@ -13,8 +13,8 @@ import (
 
 type PlayerContext struct {
 	tracks  *models.TracksManager
-	cache   *CacheManager
 	control *models.Control
+	ydl     *YoutubeDL
 	player  *vlc.Player
 	media   *vlc.Media
 	manager *vlc.EventManager
@@ -23,11 +23,11 @@ type PlayerContext struct {
 	mutex   sync.Mutex
 }
 
-func NewPlayerContext(tracks *models.TracksManager, cache *CacheManager, control *models.Control) PlayerContext {
+func NewPlayerContext(tracks *models.TracksManager, control *models.Control, ydl *YoutubeDL) PlayerContext {
 	if err := vlc.Init("--no-video"); err != nil {
 		log.Fatal(err)
 	}
-	ctx := PlayerContext{tracks: tracks, cache: cache, control: control, player: nil, media: nil, manager: nil, ticker: nil, track: models.Track{}, mutex: sync.Mutex{}}
+	ctx := PlayerContext{tracks: tracks, control: control, ydl: ydl, player: nil, media: nil, manager: nil, ticker: nil, track: models.Track{}, mutex: sync.Mutex{}}
 
 	player, err := vlc.NewPlayer()
 	if err != nil {
@@ -156,7 +156,12 @@ func (ctx *PlayerContext) Next() {
 			<-quit
 		}
 
-		media, err := ctx.player.LoadMediaFromPath(ctx.cache.TrackPath(track.ID))
+		url, err := ctx.ydl.GetTrackUrl(track.Url)
+		if err != nil {
+			return
+		}
+
+		media, err := ctx.player.LoadMediaFromURL(url)
 		if err != nil {
 			log.Println("Could not load media from path", err)
 			return
