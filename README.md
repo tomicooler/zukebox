@@ -11,8 +11,8 @@ What's this?
 
  - zukebox server:
     - simple REST api for sending/playing zuke(s) from YouTube
-    - downloads youtube-dl and keeps it up to date, see *$HOME/.cache/zukebox/bin*
-    - downloads music using youtube-dl, see *$HOME/.cache/zukebox/cache*
+    - downloads ytdl (npm package) and keeps it up to date, see *$HOME/.cache/zukebox/npm*
+    - get the stream url using ytdl and play the music using vlc
 
  - chrome extension:
     - an easy way to send zuke(s)
@@ -24,7 +24,7 @@ What's this?
 Developing
 ----------
 
-    $ pacman -S go-tools python3 vlc curl jq   # install the dependencies
+    $ pacman -S go-tools npm vlc curl jq       # install the dependencies
     $ go build                                 # build
     $ ./zukebox                                # run
 
