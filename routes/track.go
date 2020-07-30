@@ -73,12 +73,13 @@ func CreateTrack(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	track.ID = info.ID
-	track.Title = info.Title
+	track.ID = info.PlayerResponse.VideoDetails.ID
+	track.Title = info.PlayerResponse.VideoDetails.Title
 	if len(info.PlayerResponse.VideoDetails.Thumbnail.Thumbnails) > 0 {
 		track.Thumbnail = info.PlayerResponse.VideoDetails.Thumbnail.Thumbnails[0].Url
 	}
-	duration, err := strconv.ParseFloat(info.Duration, 64)
+
+	duration, err := strconv.ParseFloat(info.PlayerResponse.VideoDetails.Duration, 64)
 	if err != nil {
 		render.Render(w, r, &ErrResponse{HTTPStatusCode: 403, StatusText: "Could not parse duration!"})
 		return

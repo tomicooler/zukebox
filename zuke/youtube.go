@@ -20,8 +20,11 @@ type Thumbnails struct {
 }
 
 type VideoDetails struct {
-	Thumbnail Thumbnails `json:"thumbnail"`
-	IsLive    bool       `json:"isLiveContent"`
+	ID             string         `json:"videoId"`
+	Title          string         `json:"title"`
+	Duration       string         `json:"lengthSeconds"`
+	IsLive         bool           `json:"isLiveContent"`
+	Thumbnail      Thumbnails     `json:"thumbnail"`
 }
 
 type PlayerResponse struct {
@@ -29,10 +32,7 @@ type PlayerResponse struct {
 }
 
 type TrackInfo struct {
-	ID             string         `json:"video_id"`
-	Title          string         `json:"title"`
-	Duration       string         `json:"length_seconds"`
-	PlayerResponse PlayerResponse `json:"player_response"`
+	PlayerResponse PlayerResponse `json:"playerResponse"`
 }
 
 type YoutubeDL struct {
