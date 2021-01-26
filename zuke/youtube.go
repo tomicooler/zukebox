@@ -32,7 +32,7 @@ type PlayerResponse struct {
 }
 
 type TrackInfo struct {
-	PlayerResponse PlayerResponse `json:"playerResponse"`
+	PlayerResponse PlayerResponse `json:"player_response"`
 }
 
 type YoutubeDL struct {
